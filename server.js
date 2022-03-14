@@ -9,37 +9,16 @@ app.use(express.json());
 // Importing the database model
 const Sequelize = require('sequelize')
 const db = require('./db.js');
-const User = db.define('user', {
-    user_id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
-    lastname: { type: Sequelize.STRING, allowNull: false },
-    firstname: { type: Sequelize.STRING, allowNull: false }
-})
 
-const Group = db.define('group', {
-    group_id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
-    name: { type: Sequelize.STRING, allowNull: false }
-})
+const User = require('./models/userModel');
+const Group = require('./models/groupModel');
+
 
 User.belongsTo(Group, { foreignKey: "group_id"});
 Group.hasMany(User);
 
 // Creating all the tables defined in user
 db.sync({force: true})
-
-// Send message for default URL
-app.get('/', (req, res) => {
-    res.send('Hello World !');
-});
 
 app.post('/group', async (req, res) => {
     let group = Group.build({ name: req.body.name })
