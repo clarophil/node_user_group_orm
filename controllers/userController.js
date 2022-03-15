@@ -1,7 +1,5 @@
-const User = require('../models/userModel');
-const Group = require('../models/groupModel');
-
-User.belongsTo(Group, { foreignKey: "group_id" });
+const db = require('../models/index');
+const User = db.User;
 
 exports.userList = async function (req, res) {
     await User.findAll({ attributes: ['lastname', 'firstname'] })

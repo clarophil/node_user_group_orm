@@ -6,12 +6,12 @@ let app = express();
 
 app.use(express.json());
 
-// Importing the database model
 const Sequelize = require('sequelize')
-const db = require('./db.js');
+const db = require('./db.js')
 
 // Creating all the tables defined in user
-db.sync({force: true})
+db.sync()
+// db.sync({force: true})
 
 let router = require('./routes');
 app.use("/", router)

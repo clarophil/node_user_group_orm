@@ -1,7 +1,6 @@
-const Group = require('../models/groupModel');
-const User = require('../models/userModel');
-
-Group.hasMany(User, { foreignKey: "group_id" });
+const db = require('../models/index');
+const Group = db.Group;
+const User = db.User;
 
 exports.groupList = async function (req, res) {
     await Group.findAll({ include: [User] })
