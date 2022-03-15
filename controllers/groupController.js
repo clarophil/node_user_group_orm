@@ -3,6 +3,17 @@ const User = require('../models/userModel');
 
 Group.hasMany(User, { foreignKey: "group_id" });
 
+exports.groupList = async function (req, res) {
+    await Group.findAll({ include: [User] })
+        .then(data => {
+            console.log("All groups:", JSON.stringify(data, null, 2));
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500).json({ message: err.message })
+        })
+}
+
 exports.groupCreate = async (req, res) => {
     let group = Group.build({ name: req.body.name })
     await group.save()
@@ -14,17 +25,6 @@ exports.groupCreate = async (req, res) => {
             res.status(500).json({ message: err.message })
         })
     // or user.create in one time
-}
-
-exports.groupList = async function (req, res) {
-    await Group.findAll({include: [User]})
-        .then(data => {
-            console.log("All groups:", JSON.stringify(data, null, 2));
-            res.json(data);
-        })
-        .catch(err => {
-            res.status(500).json({ message: err.message })
-        })
 }
 
 exports.groupUpdate = async function (req, res) {
