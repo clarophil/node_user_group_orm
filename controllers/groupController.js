@@ -1,4 +1,7 @@
 const Group = require('../models/groupModel');
+const User = require('../models/userModel');
+
+Group.hasMany(User, { foreignKey: "group_id" });
 
 exports.groupCreate = async (req, res) => {
     let group = Group.build({ name: req.body.name })
@@ -14,7 +17,7 @@ exports.groupCreate = async (req, res) => {
 }
 
 exports.groupList = async function (req, res) {
-    await Group.findAll()
+    await Group.findAll({include: [User]})
         .then(data => {
             console.log("All groups:", JSON.stringify(data, null, 2));
             res.json(data);
