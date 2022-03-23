@@ -2,7 +2,7 @@ const db = require('../models/index');
 const User = db.User;
 
 exports.userList = async function (req, res) {
-    await User.findAll({ attributes: ['lastname', 'firstname'] })
+    await User.findAll({ attributes: ['user_id','lastname', 'firstname'] })
         .then(data => {
             console.log("All users:", JSON.stringify(data, null, 2));
             res.json(data);
