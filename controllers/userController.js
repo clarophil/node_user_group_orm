@@ -67,14 +67,13 @@ exports.userFindOne = async function (req, res) {
     else res.status(400).json({ message: 'User not found' })
 }
 
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
 exports.userFindOp = async function (req, res) {
-    await User.findAll({
-        where: {
-            user_id:
-                { [Op.gt]: 2, [Op.lt]: 9 }
-        }
-    })
+    let params = {};
+    Object.entries(req.body).forEach(([key, value]) => {
+        params[key] = value;
+    });
+    await User.findAll({ where: params })
         .then(data => {
             res.json(data);
         })
