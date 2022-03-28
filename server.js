@@ -4,6 +4,10 @@ let express = require('express');
 // Initialize the app 
 let app = express();
 
+// CORS enable
+const cors = require('cors');
+app.use(cors());
+
 app.use(express.json());
 
 const Sequelize = require('sequelize')
@@ -17,6 +21,7 @@ let router = require('./routes');
 app.use("/", router)
 
  // Launch app to listen to specified port
-app.listen(8000, function () {
-    console.log('Runnings on port 8000');
+ const port = 8088;
+app.listen(port, function () {
+    console.log('Runnings on port ') + port ;
 })
