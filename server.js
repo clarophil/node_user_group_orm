@@ -21,11 +21,14 @@ require('dotenv').config();
 // db.sync({force: true})
 
 let router = require('./routes');
-app.use("/", router)
+app.use("/api", router)
 
 // Manage bad route
 app.use(function (req, res, next) {
-    res.status(404).json({ "error": "path not found" });
+    res.status(404).json({
+        "error": "path not found" +
+            `${req.protocol}://${req.get('host')}${req.originalUrl}`
+    });
 });
 
 // Launch app to listen to specified port
